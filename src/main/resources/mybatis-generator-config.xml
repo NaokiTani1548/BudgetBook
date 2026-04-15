@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="BudgetBook" targetRuntime="MyBatis3">
+
+        <!-- 生成されるコードのコメント設定 -->
+        <!-- コメントは出すが、日付はつけない -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="false"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- DB接続設定 -->
+        <jdbcConnection
+                driverClass="org.postgresql.Driver"
+                connectionURL="jdbc:postgresql://localhost:5432/budget_book_db"
+                userId="budget_book_user"
+                password="budget_book_pass">
+            <!-- PostgreSQLの場合、他スキーマのテーブルを除外 -->
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <!-- 型変換設定 -->
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+            <property name="useJSR310Types" value="true"/>  <!-- LocalDate等を使用 -->
+        </javaTypeResolver>
+
+        <!-- Entity（モデル）の生成先 -->
+        <javaModelGenerator
+                targetPackage="com.example.BudgetBook.infrastructure.persistence.entity"
+                targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- XMLマッパーの生成先 -->
+        <sqlMapGenerator
+                targetPackage="mapper"
+                targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- Mapperインターフェースの生成先 -->
+        <javaClientGenerator
+                type="XMLMAPPER"
+                targetPackage="com.example.BudgetBook.infrastructure.persistence.mapper"
+                targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 生成対象テーブル -->
+        <table tableName="users" domainObjectName="UserEntity"/>
+        <table tableName="categories" domainObjectName="CategoryEntity"/>
+        <table tableName="expenses" domainObjectName="ExpenseEntity"/>
+        <table tableName="incomes" domainObjectName="IncomeEntity"/>
+
+    </context>
+</generatorConfiguration>

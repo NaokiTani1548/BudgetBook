@@ -6,18 +6,36 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
+//@Configuration
+//@EnableWebSecurity
+//public class SecurityConfig {
+//
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeHttpRequests(auth -> auth
+//                        .anyRequest().permitAll()
+//                )
+//                .csrf(csrf -> csrf.disable())
+//                .formLogin(login -> login.disable());
+//
+//        return http.build();
+//    }
+//}
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                // CSRF無効化（REST APIなので）
+                .csrf(csrf -> csrf.disable())
+                // 全てのリクエストを許可（開発用）
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
-                )
-                .csrf(csrf -> csrf.disable())
-                .formLogin(login -> login.disable());
+                );
 
         return http.build();
     }

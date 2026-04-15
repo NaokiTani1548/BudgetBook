@@ -1,0 +1,25 @@
+services:
+  postgres:
+    image: postgres:17.9
+    container_name: budget-book-db
+    restart: always
+
+    environment:
+      POSTGRES_USER: budget_book_user
+      POSTGRES_PASSWORD: budget_book_pass
+      POSTGRES_DB: budget_book_db
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U budget_book_user"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
